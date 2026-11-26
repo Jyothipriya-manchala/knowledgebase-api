@@ -52,3 +52,20 @@ def get_note(note_id : int):
         if note.id == note_id:
             return note
     raise HTTPException(status_code=404, detail = "Note not found")
+
+@app.put("/notes/{note_id}", response_model=Note)
+def update_note(note_id : int, note : NoteCreate):
+    for index, existing_note in enumerate(notes):
+        if existing_note.id == note_id:
+            updated_note = Note(id = note_id, title = note.title, content = note.content)
+            notes[index] = updated_note
+            return updated_note
+    raise HTTPException(status_code=404, detail= "Note not found")
+
+@app.delete("/notes/{note_id}", status_code=204)
+def delete_note(note_id : int):
+    for index, existing_note in enumerate(notes):
+        if existing_note.id == note_id:
+            notes.pop(index)
+            return
+    raise HTTPException(status_code=404, detail= "Note not found")
