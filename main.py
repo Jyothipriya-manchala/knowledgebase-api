@@ -1,6 +1,9 @@
+from database import Base, engine
+import models
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
+Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Knowledgebase API")
 
 # @app.get("/health")
